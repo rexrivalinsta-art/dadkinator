@@ -42,7 +42,7 @@ function Tracker({ idx }) {
           <div key={label} className="flex items-center gap-3">
             <div className={`flex h-7 w-7 items-center justify-center rounded-full border transition-colors ${
               done ? 'border-emerald-400/50 bg-emerald-400/15 text-emerald-300'
-                : active ? 'border-violet-400/60 bg-violet-400/15 text-violet-300'
+                : active ? 'border-emerald-400/60 bg-emerald-400/15 text-emerald-300'
                 : 'border-white/10 bg-white/5 text-white/30'}`}>
               {done ? <Check className="h-4 w-4" /> : active ? <CircleDot className="h-4 w-4 animate-pulse" /> : <Clock className="h-3.5 w-3.5" />}
             </div>
@@ -68,14 +68,14 @@ function OrderCard({ local, live }) {
   return (
     <div className="swap-card rounded-3xl border border-white/10 p-5 sm:p-6 shadow-2xl shadow-black/60">
       <div className="flex items-center justify-between gap-2">
-        <div className="text-xs text-violet-300 font-medium">
-          {local?.method === 'privacy' ? 'Privacy swap · NEAR Intents' : 'Private route · HoudiniSwap'}
+        <div className="text-xs text-emerald-300 font-medium">
+          {local?.method === 'privacy' ? 'Privacy swap · Shielded' : 'Private route · Best rate'}
         </div>
         <span className="font-mono text-xs text-white/50 truncate max-w-[45%]">{local?.id || live?.houdiniId || live?.requestId}</span>
       </div>
 
       <div className="mt-3 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs">
-        <span className="h-1.5 w-1.5 rounded-full bg-violet-400 animate-pulse" />
+        <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
         {statusStr.replace(/_/g, ' ')}
       </div>
 
@@ -103,7 +103,7 @@ function OrderCard({ local, live }) {
           <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2.5">
             <code className="text-xs break-all text-white/90">{deposit}</code>
             <button onClick={() => { navigator.clipboard?.writeText(deposit); setCopied(true); setTimeout(() => setCopied(false), 1500); }}
-              className="ml-auto shrink-0 text-white/60 hover:text-violet-300 transition-colors">
+              className="ml-auto shrink-0 text-white/60 hover:text-emerald-300 transition-colors">
               {copied ? <Check className="h-4 w-4 text-emerald-400" /> : <Copy className="h-4 w-4" />}
             </button>
           </div>
@@ -111,7 +111,7 @@ function OrderCard({ local, live }) {
       )}
 
       <Tracker idx={idx} />
-      <p className="mt-5 text-center text-[0.7rem] text-white/35">Live status via DarkSwap · refreshes automatically.</p>
+      <p className="mt-5 text-center text-[0.7rem] text-white/35">Live status · refreshes automatically.</p>
     </div>
   );
 }
@@ -185,7 +185,7 @@ export default function TrackOrderPage() {
             className="w-full bg-transparent text-sm outline-none placeholder:text-white/30 font-mono"
           />
           <button onClick={() => doSearch(query)} disabled={loading}
-            className="shrink-0 rounded-lg bg-gradient-to-b from-violet-400 to-violet-500 px-4 py-1.5 text-sm font-semibold text-black hover:brightness-110 transition-all disabled:opacity-60">
+            className="shrink-0 rounded-lg bg-gradient-to-b from-emerald-400 to-emerald-500 px-4 py-1.5 text-sm font-semibold text-black hover:brightness-110 transition-all disabled:opacity-60">
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Track'}
           </button>
         </div>

@@ -86,7 +86,7 @@ export default function TokenSelector({ open, onOpenChange, title, side, fetchTo
               value={term}
               onChange={(e) => setTerm(e.target.value)}
               placeholder="Search name or symbol"
-              className="pl-9 bg-white/5 border-white/10 focus-visible:ring-violet-500"
+              className="pl-9 bg-white/5 border-white/10 focus-visible:ring-emerald-500"
             />
           </div>
         </div>

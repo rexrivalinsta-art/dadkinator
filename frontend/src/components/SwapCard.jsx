@@ -9,8 +9,8 @@ import {
 } from '../api/api';
 
 const METHODS = [
-  { id: 'private', label: 'Private route', sub: 'Automatic quotes' },
-  { id: 'privacy', label: 'Privacy swap', sub: 'NEAR Intents' },
+  { id: 'private', label: 'Private route', sub: 'Best live rate' },
+  { id: 'privacy', label: 'Privacy swap', sub: 'Shielded settlement' },
 ];
 
 const fmt = (n) => {
@@ -32,7 +32,7 @@ function MethodTabs({ method, setMethod }) {
             onClick={() => setMethod(m.id)}
             className={`rounded-xl py-2.5 text-center transition-all ${
               active
-                ? 'bg-gradient-to-b from-violet-400/90 to-violet-500 text-black shadow-lg shadow-violet-500/20'
+                ? 'bg-gradient-to-b from-emerald-400/90 to-emerald-500 text-black shadow-lg shadow-emerald-500/20'
                 : 'text-white/60 hover:text-white hover:bg-white/5'
             }`}
           >
@@ -244,7 +244,7 @@ export default function SwapCard() {
       {/* direction */}
       <div className="relative flex justify-center my-1">
         <div className="h-9 w-9 rounded-xl border border-white/10 bg-[#121218] flex items-center justify-center">
-          <ArrowDown className="h-4 w-4 text-violet-300" />
+          <ArrowDown className="h-4 w-4 text-emerald-300" />
         </div>
       </div>
 
@@ -334,14 +334,14 @@ export default function SwapCard() {
         disabled={!canReview}
         className={`mt-5 w-full rounded-2xl py-3.5 text-sm font-semibold transition-all inline-flex items-center justify-center gap-2 ${
           canReview
-            ? 'bg-gradient-to-b from-violet-400 to-violet-500 text-black hover:brightness-110 shadow-lg shadow-violet-500/25'
+            ? 'bg-gradient-to-b from-emerald-400 to-emerald-500 text-black hover:brightness-110 shadow-lg shadow-emerald-500/25'
             : 'bg-white/5 text-white/40 cursor-not-allowed'
         }`}
       >
         {submitting && <Loader2 className="h-4 w-4 animate-spin" />}
         {submitting ? 'Creating order…' : cta}
       </button>
-      <p className="mt-3 text-center text-xs text-white/35">Creating an order moves no funds · real live quotes</p>
+      <p className="mt-3 text-center text-xs text-white/35">Creating an order moves no funds · live on-chain quotes</p>
 
       <TokenSelector
         open={selOpen}

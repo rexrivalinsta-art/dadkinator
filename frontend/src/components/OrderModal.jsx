@@ -26,7 +26,7 @@ function CopyField({ label, value }) {
         <code className="text-xs sm:text-sm break-all text-white/90">{value}</code>
         <button
           onClick={() => { navigator.clipboard?.writeText(value); setCopied(true); setTimeout(() => setCopied(false), 1500); }}
-          className="ml-auto shrink-0 text-white/60 hover:text-violet-300 transition-colors"
+          className="ml-auto shrink-0 text-white/60 hover:text-emerald-300 transition-colors"
         >
           {copied ? <Check className="h-4 w-4 text-emerald-400" /> : <Copy className="h-4 w-4" />}
         </button>
@@ -46,13 +46,13 @@ const fmt = (n) => {
 export default function OrderModal({ order, open, onOpenChange }) {
   const countdown = useCountdown(order ? order.expires : null);
   if (!order) return null;
-  const methodLabel = order.method === 'privacy' ? 'Privacy swap · NEAR Intents' : 'Private route · HoudiniSwap';
+  const methodLabel = order.method === 'privacy' ? 'Privacy swap · Shielded' : 'Private route · Best rate';
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md border-white/10 bg-[#0d0d12] p-0 gap-0 overflow-hidden max-h-[92vh] overflow-y-auto">
-        <div className="bg-gradient-to-b from-violet-500/15 to-transparent px-5 pt-5 pb-4">
-          <div className="flex items-center gap-2 text-violet-300 text-xs font-medium">
+        <div className="bg-gradient-to-b from-emerald-500/15 to-transparent px-5 pt-5 pb-4">
+          <div className="flex items-center gap-2 text-emerald-300 text-xs font-medium">
             <ShieldCheck className="h-4 w-4" /> {methodLabel}
           </div>
           <div className="mt-2 flex items-center justify-between gap-2">
@@ -103,7 +103,7 @@ export default function OrderModal({ order, open, onOpenChange }) {
             Track this order <ExternalLink className="h-4 w-4" />
           </a>
           <p className="text-center text-[0.7rem] text-white/35">
-            Live order via DarkSwap. Only deposit from your own Solana wallet.
+            Live order via Darkinator. Only deposit from your own Solana wallet.
           </p>
         </div>
       </DialogContent>
