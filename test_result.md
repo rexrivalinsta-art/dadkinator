@@ -101,3 +101,33 @@
 #====================================================================================================
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
+
+user_problem_statement: "Clone DarkSwap /swap with a sleek frontend and BOTH live swap methods (Private route via HoudiniSwap, Privacy swap via NEAR Intents), using DarkSwap's real backend through a server-side proxy."
+
+backend:
+  - task: "DarkSwap passthrough proxy /api/ds/{path}"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        -working: "NA"
+        -agent: "main"
+        -comment: "Thin httpx proxy maps /api/ds/<path> -> https://darkswap.app/api/swap/<path>, forwarding query params + JSON body with browser-like headers. Allowlist: tokens, chains, quotes, orders, near. Verified manually via curl that upstream contracts work."
+        -working: true
+        -agent: "testing"
+        -comment: "Comprehensive end-to-end testing completed successfully (10/10 tests passed). PRIVATE ROUTE (HoudiniSwap): ✅ Step 1 - GET /api/ds/tokens?side=source returned 100 tokens with SOL present. ✅ Step 2 - GET /api/ds/tokens?side=destination&term=WBTC returned 11 tokens including WBTC. ✅ Step 3 - GET /api/ds/quotes successfully returned quote with quoteId, amountIn, amountOut, amountOutUsd. ✅ Step 4 - POST /api/ds/orders successfully created order with houdiniId=2y1M3yRmF9FXnUUayMXVzM, depositAddress, receiverAddress, displayStatus=WAITING_FOR_DEPOSIT. ✅ Step 5 - GET /api/ds/orders/{houdiniId} successfully retrieved order status. PRIVACY SWAP (NEAR Intents): ✅ Step 6 - GET /api/ds/near/tokens?side=source returned 18 tokens with SOL (Solana) present. ✅ Step 7 - GET /api/ds/near/tokens?side=destination returned 100 tokens with ETH (Ethereum) present. ✅ Step 8 - POST /api/ds/near/quote successfully created quote with quoteId, amountOut, estimatedSeconds. ✅ Step 9 - POST /api/ds/near/orders successfully created order with depositAddress, requestId, status=PENDING_DEPOSIT. ALLOWLIST GUARD: ✅ GET /api/ds/rewards/config correctly blocked with 403. All endpoints returning expected JSON structures with required keys. Proxy correctly forwards requests to upstream DarkSwap API with proper headers and handles responses."
+
+test_plan:
+  current_focus: []
+  stuck_tasks: []
+  test_all: false
+  test_priority: "high_first"
+
+agent_communication:
+    -agent: "main"
+    -message: "Please test the proxy endpoints through our backend (base: REACT_APP_BACKEND_URL + /api/ds). PRIVATE ROUTE: (1) GET /api/ds/tokens?side=source -> {tokens:[...]} with SOL present; (2) GET /api/ds/tokens?side=destination&term=USDT returns tokens; (3) GET /api/ds/quotes?amount=5&from=<SOL source token id>&to=<a destination token id, e.g. WBTC> -> {quotes:[{quoteId,amountOut,...}]}; (4) POST /api/ds/orders {quoteId, addressTo:<valid EVM wallet address, NOT a token contract, e.g. 0x68b3a9f8940f418e8051ebb659e8ed278fea41f6>} -> {houdiniId, depositAddress,...}; (5) GET /api/ds/orders/<houdiniId> -> status with displayStatus. NEAR/PRIVACY: (6) GET /api/ds/near/tokens?side=source and side=destination; (7) POST /api/ds/near/quote {from:<near SOL source id>, to:<near ETH on Ethereum dest id>, amount:'5', recipient:<EVM addr>, refundTo:<solana addr e.g. 5tzFkiKscXHK5ZXCGbXZxdw7gTjjD1mBwuoFbhUvuAi9>} -> {quoteId, amountOut,...}; (8) POST /api/ds/near/orders {quoteId, requestId:<uuid>} -> {depositAddress, requestId,...}. NOTE: token ids are opaque strings fetched from the tokens endpoints; each quote is single-use (use a fresh/unique amount per order to avoid 409). Confirm 2xx and expected JSON keys. Upstream is a real third-party; treat occasional 502 as upstream flakiness, retry once."
+    -agent: "testing"
+    -message: "✅ ALL TESTS PASSED (10/10 - 100% success rate). DarkSwap passthrough proxy is fully functional. Both swap methods validated end-to-end: PRIVATE ROUTE (HoudiniSwap) completed all 5 steps successfully including token fetching, quote generation, order creation, and status retrieval. PRIVACY SWAP (NEAR Intents) completed all 4 steps successfully including NEAR token fetching, quote creation, and order creation. Allowlist guard correctly blocks non-allowed paths with 403. All endpoints return proper JSON structures with expected keys. Proxy correctly handles query params, JSON bodies, and forwards to upstream with appropriate headers. No critical issues found. Backend implementation is production-ready."
